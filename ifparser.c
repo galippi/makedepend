@@ -2,7 +2,7 @@
  * $Xorg: ifparser.c,v 1.3 2000/08/17 19:41:50 cpqbld Exp $
  *
  * Copyright 1992 Network Computing Devices, Inc.
- *
+ * 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted, provided
  * that the above copyright notice appear in all copies and that both that
@@ -12,7 +12,7 @@
  * without specific, written prior permission.  Network Computing Devices makes
  * no representations about the suitability of this software for any purpose.
  * It is provided ``as is'' without express or implied warranty.
- *
+ * 
  * NETWORK COMPUTING DEVICES DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
  * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS,
  * IN NO EVENT SHALL NETWORK COMPUTING DEVICES BE LIABLE FOR ANY SPECIAL,
@@ -20,47 +20,46 @@
  * LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
  * OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
- *
+ * 
  * Author:  Jim Fulton
  *          Network Computing Devices, Inc.
- *
+ * 
  * Simple if statement processor
  *
  * This module can be used to evaluate string representations of C language
  * if constructs.  It accepts the following grammar:
- *
+ * 
  *     EXPRESSION	:=	VALUE
- *			 |	VALUE  BINOP	EXPRESSION
+ * 			 |	VALUE  BINOP	EXPRESSION
  *			 |	VALUE	'?'	EXPRESSION ':'	EXPRESSION
- *
+ * 
  *     VALUE		:=	'('  EXPRESSION  ')'
- *			 |	'!'  VALUE
- *			 |	'-'  VALUE
- *			 |	'+'  VALUE
+ * 			 |	'!'  VALUE
+ * 			 |	'-'  VALUE
+ * 			 |	'+'  VALUE
  *			 |	'~'  VALUE
- *			 |	'defined'  '('  variable_name  ')'
- *			 |	'defined'  variable_name
+ * 			 |	'defined'  '('  variable  ')'
+ * 			 |	'defined'  variable
  *			 |	# variable '(' variable-list ')'
- *			 |	variable(arglist)
- *			 |	variable
- *			 |	number
- *
+ * 			 |	variable
+ * 			 |	number
+ * 
  *     BINOP		:=	'*'	|  '/'	|  '%'
- *			 |	'+'	|  '-'
- *			 |	'<<'	|  '>>'
- *			 |	'<'	|  '>'	|  '<='  |  '>='
- *			 |	'=='	|  '!='
- *			 |	'&'	|  '^'  |  '|'
- *			 |	'&&'	|  '||'
- *
+ * 			 |	'+'	|  '-'
+ * 			 |	'<<'	|  '>>'
+ * 			 |	'<'	|  '>'	|  '<='  |  '>='
+ * 			 |	'=='	|  '!='
+ * 			 |	'&'	|  '^'  |  '|'
+ * 			 |	'&&'	|  '||'
+ * 
  * The normal C order of precedence is supported.
- *
- *
+ * 
+ * 
  * External Entry Points:
- *
+ * 
  *     ParseIfExpression		parse a string for #if
  */
-/* $XFree86: xc/config/makedepend/ifparser.c,v 3.12 2004/03/05 16:02:58 tsi Exp $ */
+/* $XFree86: xc/config/makedepend/ifparser.c,v 3.10tsi Exp $ */
 
 #include "ifparser.h"
 #include <ctype.h>
@@ -78,53 +77,16 @@
 
 
 static const char *
-parse_variable_name (IfParser *g, const char *cp, const char **varp, int *varlenp)
+parse_variable (IfParser *g, const char *cp, const char **varp)
 {
-    *varlenp = 0;
-
     SKIPSPACE (cp);
 
-    if (!isvarfirstletter(*cp))
-	return CALLFUNC(g, handle_error) (g, cp, "variable name");
-
-    *varp = cp;
-    for (cp++; isalnum(*cp) || *cp == '_'; cp++) /* EMPTY */;
-    *varlenp = cp - *varp;
-
-    return cp;
-}
-
-
-static const char *
-parse_variable (IfParser *g, const char *cp, const char **varp, int *varlenp, const char **argsp)
-{
-    *argsp = NULL;
-    *varlenp = 0;
-
-    SKIPSPACE (cp);
-
-    /* this error handling call might prevent us from merging with above code */
     if (!isvarfirstletter (*cp))
 	return CALLFUNC(g, handle_error) (g, cp, "variable name");
 
     *varp = cp;
-    for (cp++; isalnum(*cp) || *cp == '_'; cp++) /* EMPTY */;
-    *varlenp = cp - *varp;
-
-    if (variable_has_args(g, *varp, *varlenp))
-    {
-	SKIPSPACE (cp);
-	if (*cp != '(')
-	{
-	    return CALLFUNC(g, handle_error) (g, cp, "argument list");
-	}
-	cp++;
-
-	*argsp = cp;
-	for (cp++; *cp != ')'; cp++) /* EMPTY */;
-	cp++;
-    }
-
+    /* EMPTY */
+    for (cp++; isalnum(*cp) || *cp == '_'; cp++) ;
     return cp;
 }
 
@@ -209,8 +171,7 @@ parse_character (IfParser *g, const char *cp, long *valp)
 static const char *
 parse_value (IfParser *g, const char *cp, long *valp)
 {
-    const char *var, *args;
-    int varlen;
+    const char *var, *varend;
 
     *valp = 0;
 
@@ -222,7 +183,7 @@ parse_value (IfParser *g, const char *cp, long *valp)
       case '(':
 	DO (cp = ParseIfExpression (g, cp + 1, valp));
 	SKIPSPACE (cp);
-	if (*cp != ')')
+	if (*cp != ')') 
 	    return CALLFUNC(g, handle_error) (g, cp, ")");
 
 	return cp + 1;			/* skip the right paren */
@@ -247,12 +208,12 @@ parse_value (IfParser *g, const char *cp, long *valp)
 	return cp;
 
       case '#':
-	DO (cp = parse_variable (g, cp + 1, &var, &varlen, &args));
+	DO (cp = parse_variable (g, cp + 1, &var));
 	SKIPSPACE (cp);
 	if (*cp != '(')
 	    return CALLFUNC(g, handle_error) (g, cp, "(");
 	do {
-	    DO (cp = parse_variable (g, cp + 1, &var, &varlen, &args));
+	    DO (cp = parse_variable (g, cp + 1, &var));
 	    SKIPSPACE (cp);
 	} while (*cp && *cp != ')');
 	if (*cp != ')')
@@ -269,6 +230,7 @@ parse_value (IfParser *g, const char *cp, long *valp)
       case 'd':
 	if (strncmp (cp, "defined", 7) == 0 && !isalnum(cp[7])) {
 	    int paren = 0;
+	    int len;
 
 	    cp += 7;
 	    SKIPSPACE (cp);
@@ -276,31 +238,43 @@ parse_value (IfParser *g, const char *cp, long *valp)
 		paren = 1;
 		cp++;
 	    }
-	    DO (cp = parse_variable_name (g, cp, &var, &varlen));
+	    DO (cp = parse_variable (g, cp, &var));
+	    len = cp - var;
 	    SKIPSPACE (cp);
 	    if (paren && *cp != ')')
 		return CALLFUNC(g, handle_error) (g, cp, ")");
-	    *valp = (*(g->funcs.eval_defined)) (g, var, varlen);
+	    *valp = (*(g->funcs.eval_defined)) (g, var, len);
 	    return cp + paren;		/* skip the right paren */
 	}
 	/* fall out */
     }
 
     if (isdigit(*cp)) {
-	/* determine the numeric value */
 	DO (cp = parse_number (g, cp, valp));
-    } else if (isvarfirstletter(*cp)) {
-	/* resolve the value of this macro.
-	 * (macro argument substitution will take place
-	 * and recursive macro resolvement will apply) */
-	DO (cp = parse_variable (g, cp, &var, &varlen, &args));
-	*valp = (*(g->funcs.eval_variable)) (g, var, varlen, args);
-    }
-    else {
-	/* we finally got something that does not fit the syntax rules */
+    } else if (!isvarfirstletter(*cp))
 	return CALLFUNC(g, handle_error) (g, cp, "variable or number");
-    }
+    else {
+	DO (cp = parse_variable (g, cp, &var));
+	varend = cp;
+	SKIPSPACE(cp);
+	if (*cp != '(') {
+	    *valp = (*(g->funcs.eval_variable)) (g, var, varend - var);
+	} else {
+	    do {
+		long dummy;
+		DO (cp = ParseIfExpression (g, cp + 1, &dummy));
+		SKIPSPACE(cp);
+		if (*cp == ')')
+		    break;
+		if (*cp != ',')
+		    return CALLFUNC(g, handle_error) (g, cp, ",");
+	    } while (1);
 
+	    *valp = 1;	/* XXX */
+	    cp++;
+	}
+    }
+    
     return cp;
 }
 
