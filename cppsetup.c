@@ -24,7 +24,7 @@ used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
 
 */
-/* $XFree86$ */
+/* $XFree86: xc/config/makedepend/cppsetup.c,v 3.11 2001/12/17 20:52:22 dawes Exp $ */
 
 #include "def.h"
 

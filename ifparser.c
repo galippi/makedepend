@@ -59,7 +59,7 @@
  * 
  *     ParseIfExpression		parse a string for #if
  */
-/* $XFree86$ */
+/* $XFree86: xc/config/makedepend/ifparser.c,v 3.11 2002/09/23 01:48:08 tsi Exp $ */
 
 #include "ifparser.h"
 #include <ctype.h>
