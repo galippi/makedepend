@@ -679,15 +679,15 @@ char *cpp_argv[ARGUMENTS] = {
 # ifdef SVR4
 	"-DSVR4",
 # endif
-# ifdef __powerpc__
+#endif
+#ifdef __powerpc__
 	"-D__powerpc__",
-# endif
-# ifdef __powerpc64__
+#endif
+#ifdef __powerpc64__
 	"-D__powerpc64__",
-# endif
-# ifdef PowerMAX_OS
+#endif
+#ifdef PowerMAX_OS
 	"-DPowerMAX_OS",
-# endif
 #endif
 #if defined (__QNX__) && !defined(__QNXNTO__)
         "-traditional",
