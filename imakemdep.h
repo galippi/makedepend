@@ -143,10 +143,14 @@ in this Software without prior written authorization from The Open Group.
 #endif
 
 #ifdef WIN32
+#ifdef __GNUC__
+#define imake_ccflags "-D__STDC__"
+#else
 #if _MSC_VER < 1000
 #define imake_ccflags "-nologo -batch -D__STDC__"
 #else
 #define imake_ccflags "-nologo -D__STDC__"
+#endif
 #endif
 #endif
 
@@ -256,7 +260,11 @@ in this Software without prior written authorization from The Open Group.
 #endif
 #ifdef WIN32
 #define USE_CC_E
+#ifdef __GNUC__
+#define DEFAULT_CC "gcc"
+#else
 #define DEFAULT_CC "cl"
+#endif
 #endif
 #ifdef apollo
 #define DEFAULT_CPP "/usr/lib/cpp"
@@ -597,9 +605,11 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #ifdef WIN32
 	"-DWIN32",
+#ifndef __GNUC__
 	"-nologo",
 #if _MSC_VER < 1000
 	"-batch",
+#endif
 #endif
 	"-D__STDC__",
 #endif
