@@ -395,6 +395,9 @@ char *cpp_argv[ARGUMENTS] = {
 # ifdef __m68k__
 	"-D__m68k__",
 # endif
+# ifdef __hppa__
+	"-D__hppa__",
+# endif
 # ifdef __sh__
 	"-D__sh__",
 # endif
@@ -1325,6 +1328,9 @@ struct symtab	predefs[] = {
 # endif
 # ifdef __s390__
 	{"__s390__", "1"},
+# endif
+# ifdef __hppa__
+	{"__hppa__", "1"},
 # endif
 # ifdef __sh__
 	{"__sh__", "1"},
