@@ -1,4 +1,5 @@
 /* $Xorg: imakemdep.h,v 1.6 2001/02/09 02:03:16 xorgcvs Exp $ */
+/* $XdotOrg: $ */
 /*
 
 Copyright (c) 1993, 1994, 1998  The Open Group
@@ -602,6 +603,12 @@ char *cpp_argv[ARGUMENTS] = {
 #if defined(SVR4) || defined(__svr4__) || defined(__SVR4) || defined(__sol__)
 	"-DSVR4",
 #endif
+# ifdef __sparcv9
+	"-D__sparcv9",
+# endif
+# ifdef __amd64
+	"-D__amd64",
+# endif
 #endif
 #ifdef WIN32
 	"-DWIN32",
@@ -1296,6 +1303,13 @@ struct symtab	predefs[] = {
 # if defined (__amd64__) || defined (__x86_64__)
 	{"__amd64__", "1"},
 	{"__x86_64__", "1"},
+# endif
+# if defined (__amd64) || defined(__x86_64)
+	{"__amd64", "1"},
+	{"__x86_64", "1"},
+# endif
+# ifdef __x86
+	{"__x86", "1"},
 # endif
 # ifdef __i386
 	{"__i386", "1"},
