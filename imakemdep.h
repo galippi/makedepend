@@ -24,7 +24,7 @@ used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
 
 */
-/* $XFree86: xc/config/imake/imakemdep.h,v 3.72 2003/12/30 01:53:52 tsi Exp $ */
+/* $XFree86: xc/config/imake/imakemdep.h,v 3.71 2003/06/12 14:12:26 eich Exp $ */
 
 
 /* 
