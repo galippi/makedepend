@@ -1,5 +1,5 @@
 /* $Xorg: imakemdep.h,v 1.6 2001/02/09 02:03:16 xorgcvs Exp $ */
-/* $XdotOrg: $ */
+/* $XdotOrg: xc/config/imake/imakemdep.h,v 1.8 2005/01/19 22:28:20 alanc Exp $ */
 /*
 
 Copyright (c) 1993, 1994, 1998  The Open Group
@@ -294,7 +294,7 @@ in this Software without prior written authorization from The Open Group.
 #if defined(__386BSD__)
 #define DEFAULT_CPP "/usr/libexec/cpp"
 #endif
-#if defined(__FreeBSD__)  || defined(__NetBSD__) || defined(__OpenBSD__)
+#if defined(__FreeBSD__)  || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
 #define USE_CC_E
 #endif
 #if defined(__sgi) && defined(__ANSI_CPP__)
@@ -357,8 +357,8 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #endif
 #if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || \
-    defined(__FreeBSD__) || defined(MACH) || defined(linux) || \
-    defined(__GNU__) || defined(__bsdi__) || defined(__GNUC__)
+    defined(__FreeBSD__) || defined(__DragonFly__) || defined(MACH) || \
+    defined(linux) || defined(__GNU__) || defined(__bsdi__) || defined(__GNUC__)
 # ifdef __i386__
 	"-D__i386__",
 #  if defined(__GNUC__) && (__GNUC__ >= 3)
@@ -836,14 +836,14 @@ char *cpp_argv[ARGUMENTS] = {
 #  define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
 #  define DEFAULT_OS_TEENY_REV   "v %[0-9]" 
 /* # define DEFAULT_OS_NAME        "srm %[^\n]" */ /* Not useful on ISC */
-# elif defined(__FreeBSD__) || defined(__OpenBSD__)
+# elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
 /* BSD/OS too? */
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 #  define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
 #  define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
 #  define DEFAULT_OS_TEENY_REV   "r %*d.%*d.%[0-9]" 
 #  define DEFAULT_OS_NAME        "srm %[^\n]"
-#  if defined(__FreeBSD__)
+#  if defined(__FreeBSD__) || defined(__DragonFly__)
 /* Use an alternate way to find the teeny version for -STABLE, -SNAP versions */
 #   ifndef CROSSCOMPILE_CPP
 #    define DEFAULT_OS_TEENY_REV_FROB(buf, size)			\
@@ -1257,6 +1257,9 @@ struct symtab	predefs[] = {
 #ifdef _MIPS_SZPTR
 	{"_MIPS_SZPTR", DEF_STRINGIFY(_MIPS_SZPTR)},
 #endif
+#ifdef __DragonFly__
+	{"__DragonFly__", "1"},
+#endif
 #ifdef __FreeBSD__
 	{"__FreeBSD__", "1"},
 #endif
@@ -1438,7 +1441,8 @@ typedef enum {
   netBSD,
   LinuX,
   emx,
-  win32
+  win32,
+  dragonfly
 } System;
 
 #   ifdef linux
@@ -1451,6 +1455,8 @@ System sys = netBSD;
 System sys = emx;
 #   elif defined WIN32
 System sys = win32;
+#   elif defined __DragonFly__
+System sys = dragonfly;
 #   else
 System sys = unknown;
 #   endif
