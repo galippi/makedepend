@@ -1338,6 +1338,9 @@ struct symtab	predefs[] = {
 #if defined(__LITTLE_ENDIAN__)
       {"__LITTLE_ENDIAN__", "1"},
 #endif
+#if defined (__CHAR_BIT__)
+	{"__CHAR_BIT__", DEF_STRINGIFY(__CHAR_BIT__)},
+#endif
 	/* add any additional symbols before this line */
 	{NULL, NULL}
 };
