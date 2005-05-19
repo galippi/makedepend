@@ -1,7 +1,7 @@
 dnl $XdotOrg: $
 AC_PREREQ([2.57])
 AC_INIT([makedepend], [7.0], [xorg@lists.freedesktop.org])
-AM_INIT_AUTOMAKE([foreign dist-bzip2])
+AM_INIT_AUTOMAKE([1.7], [foreign dist-bzip2])
 AM_CONFIG_HEADER([makedepend-config.h])
 
 dnl Checks for programs.
