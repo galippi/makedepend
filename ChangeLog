@@ -1,5 +1,9 @@
 ChangeLog for X.Org 7.0 modular release:
 
+2005-05-22  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+	* Makefile.am (man1_MANS): Add makedepend man page
+
 2005-05-15  Alan Coopersmith  <alan.coopersmith@sun.com>
 
 	* AUTHORS
