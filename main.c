@@ -716,10 +716,6 @@ char *getnextline(struct filepointer *filep)
 	if (*bol != '#')
 		bol = NULL;
 done:
-	if (bol && whitespace) {
-		warning("%s:  non-portable whitespace encountered at line %d\n",
-			filep->f_name, lineno);
-	}
 	filep->f_p = p;
 	filep->f_line = lineno;
 #ifdef DEBUG_DUMP
