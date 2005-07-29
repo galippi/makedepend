@@ -1,5 +1,13 @@
 ChangeLog for X.Org 7.0 modular release:
 
+2005-07-29  Kevin E. Martin  <kem-at-freedesktop-dot-org>
+
+	* Makefile.am:
+	* configure.ac:
+	Update release version
+	Fix build to use pkgconfig
+	Fix make distcheck
+
 2005-05-22  Alan Coopersmith  <alan.coopersmith@sun.com>
 
 	* Makefile.am (man1_MANS): Add makedepend man page
