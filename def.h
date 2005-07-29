@@ -32,8 +32,8 @@ in this Software without prior written authorization from The Open Group.
 # define USING_AUTOCONF
 #endif
 
-#include "Xos.h"
-#include "Xfuncproto.h"
+#include <X11/Xos.h>
+#include <X11/Xfuncproto.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
