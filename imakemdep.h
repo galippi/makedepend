@@ -1,5 +1,5 @@
 /* $Xorg: imakemdep.h,v 1.6 2001/02/09 02:03:16 xorgcvs Exp $ */
-/* $XdotOrg: xc/config/imake/imakemdep.h,v 1.8 2005/01/19 22:28:20 alanc Exp $ */
+/* $XdotOrg: xc/config/imake/imakemdep.h,v 1.9 2005/03/02 11:20:29 gisburn Exp $ */
 /*
 
 Copyright (c) 1993, 1994, 1998  The Open Group
@@ -1389,6 +1389,12 @@ struct symtab	predefs[] = {
 #if defined (__CHAR_BIT__)
 	{"__CHAR_BIT__", DEF_STRINGIFY(__CHAR_BIT__)},
 #endif
+#if defined (__BUILTIN_VA_STRUCT)
+	{"__BUILTIN_VA_STRUCT", "1"},
+#endif
+#if defined (__BUILTIN_VA_ARG_INCR)
+	{"__BUILTIN_VA_ARG_INCR", "1"},
+#endif	
 	/* add any additional symbols before this line */
 	{NULL, NULL}
 };
