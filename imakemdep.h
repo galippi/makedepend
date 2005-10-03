@@ -358,7 +358,8 @@ char *cpp_argv[ARGUMENTS] = {
 #endif
 #if defined(__386BSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || \
     defined(__FreeBSD__) || defined(__DragonFly__) || defined(MACH) || \
-    defined(linux) || defined(__GNU__) || defined(__bsdi__) || defined(__GNUC__)
+    defined(linux) || defined(__GNU__) || defined(__bsdi__) || \
+    defined(__GNUC__) || defined(__GLIBC__)
 # ifdef __i386__
 	"-D__i386__",
 #  if defined(__GNUC__) && (__GNUC__ >= 3)
@@ -836,7 +837,7 @@ char *cpp_argv[ARGUMENTS] = {
 #  define DEFAULT_OS_MINOR_REV   "r %*d.%[0-9]"
 #  define DEFAULT_OS_TEENY_REV   "v %[0-9]" 
 /* # define DEFAULT_OS_NAME        "srm %[^\n]" */ /* Not useful on ISC */
-# elif defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+# elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__OpenBSD__) || defined(__DragonFly__)
 /* BSD/OS too? */
 /* uname -r returns "x.y[.z]-mumble", e.g. "2.1.5-RELEASE" or "2.2-0801SNAP" */
 #  define DEFAULT_OS_MAJOR_REV   "r %[0-9]"
@@ -1451,7 +1452,7 @@ typedef enum {
   dragonfly
 } System;
 
-#   ifdef linux
+#   if defined(linux) || defined(__GLIBC__)
 System sys = LinuX;
 #   elif defined __FreeBSD__
 System sys = freebsd;
@@ -1474,7 +1475,7 @@ int gnu_c_minor = __GNUC_MINOR__;
 int gnu_c = 0;
 int gnu_c_minor = -1;
 #   endif
-#   if defined linux
+#   if defined(linux) || defined(__GLIBC__)
 #    include <features.h>
 int glibc_major = __GLIBC__ + 4;
 int glibc_minor = __GLIBC_MINOR__;
