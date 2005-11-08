@@ -65,16 +65,37 @@ in this Software without prior written authorization from The Open Group.
 #define imake_ccflags "-DSYSV"
 #endif
 
-#if defined(USL) || defined(__USLC__) || defined(Oki) || defined(NCR)
-#define imake_ccflags "-Xa -DSVR4"
+/*
+ * SCO UnixWare and OpenServer 6 are both System V Release 5 based OSes.
+ * The native C compiler doesn't assert __UNIXWARE__ but gcc does, so
+ * we don't redefine it if we are using gcc (as it sets it to a specific
+ * value). On OpenServer 6, which is a multi-ABI world, if you attempt
+ * to build with -Kosr, then the C compiler will assert __OPENSERVER__
+ * and set it to the value 507.  That indicates an OSR5 compile, and
+ * is handled below.
+ */
+
+#if defined(__UNIXWARE__) || defined(__USLC__) || defined(Oki) || defined(NCR)
+# ifdef imake_ccflags
+#  undef imake_ccflags
+# endif
+# ifdef __UNIXWARE__
+#  ifndef __GNUC__
+#   define imake_ccflags "-Xa -DSVR4 -DSVR5 -D__UNIXWARE__"
+#  else
+#   define imake_ccflags "-Xa -DSVR4 -DSVR5"
+#  endif
+# else
+#  define imake_ccflags "-Xa -DSVR4"
+# endif
 #endif
 
 /* SCO may define __USLC__ so put this after the USL check */
-#if defined(M_UNIX) || defined(_SCO_DS)
-#ifdef imake_ccflags
-#undef imake_ccflags
-#endif
-#define imake_ccflags "-Dsco -DSYSV -DSCO -DSCO325"
+#if defined(M_UNIX) || defined(_SCO_DS) || defined(__OPENSERVER__)
+# ifdef imake_ccflags
+#  undef imake_ccflags
+# endif
+# define imake_ccflags "-DSYSV -DSCO325 -D__SCO__"
 #endif
 
 #ifdef sony
@@ -204,7 +225,7 @@ in this Software without prior written authorization from The Open Group.
  *     descriptor onto another, define such a mechanism here (if you don't
  *     already fall under the existing category(ies).
  */
-#if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_) && !defined(sco)
+#if defined(SYSV) && !defined(_CRAY) && !defined(Mips) && !defined(_SEQUENT_) && !defined(__SCO__)
 #define	dup2(fd1,fd2)	((fd1 == fd2) ? fd1 : (close(fd2), \
 					       fcntl(fd1, F_DUPFD, fd2)))
 #endif
@@ -219,7 +240,7 @@ in this Software without prior written authorization from The Open Group.
  *     all colons).  One way to tell if you need this is to see whether or not
  *     your Makefiles have no tabs in them and lots of @@ strings.
  */
-#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(sco) || (defined(AMOEBA) && defined(CROSS_COMPILE)) || defined(__QNX__) || defined(__sgi) || defined(__UNIXOS2__)
+#if defined(sun) || defined(SYSV) || defined(SVR4) || defined(hcx) || defined(WIN32) || defined(__SCO__) || (defined(AMOEBA) && defined(CROSS_COMPILE)) || defined(__QNX__) || defined(__sgi) || defined(__UNIXOS2__) || defined(__UNIXWARE__)
 #define FIXUP_CPP_WHITESPACE
 #endif
 #ifdef WIN32
@@ -436,8 +457,9 @@ char *cpp_argv[ARGUMENTS] = {
 #if defined(macII) || defined(_AUX_SOURCE)
 	"-DmacII",	/* Apple A/UX */
 #endif
-#if defined(USL) || defined(__USLC__)
-	"-DUSL",	/* USL */
+#if defined(USL) || defined(__UNIXWARE__) || \
+	(defined(__USLC__) && !defined(_SCO_DS))
+	"-D__UNIXWARE__",	/* SCO UnixWare 7 */
 #endif
 #ifdef sony
 	"-Dsony",	/* Sony */
@@ -495,8 +517,9 @@ char *cpp_argv[ARGUMENTS] = {
 	"-DSVR4",
 # endif
 #endif /* MOTOROLA */
-#if defined(M_UNIX) || defined(sco)
-	"-Dsco",
+#if defined(M_UNIX) || defined(sco) || defined(__SCO__) || \
+	defined(_SCO_DS) || defined(__OPENSERVER__)
+	"-D__SCO__",
 	"-DSYSV",
 #endif
 #ifdef i386
@@ -522,11 +545,11 @@ char *cpp_argv[ARGUMENTS] = {
 #    endif
 #   endif
 #  endif
-#  ifdef SCO
-	"-DSCO",
-#   ifdef _SCO_DS
+#  if (_SCO_DS - 0 == 1)
     "-DSCO325",
-#   endif
+#  endif
+#  if (_SCO_DS - 0 > 1)
+    "-DSCO5V6",
 #  endif
 # endif
 # ifdef ESIX
@@ -560,12 +583,12 @@ char *cpp_argv[ARGUMENTS] = {
 #   endif
 #  endif
 # endif
-# ifdef SCO
-	"-DSCO",
-#  ifdef _SCO_DS
+# if (_SCO_DS - 0 == 1)
 	"-DSCO325",
-#  endif
 # endif
+#  if (_SCO_DS - 0 > 1)
+    "-DSCO5V6",
+#  endif
 # ifdef ESIX
 	"-DESIX",
 # endif
@@ -783,7 +806,8 @@ char *cpp_argv[ARGUMENTS] = {
 #  define DEFAULT_OS_MINOR_REV	"r %*[^.].%*d.%1s"
 #  define DEFAULT_OS_TEENY_REV	"r %*[^.].%*d.%*c%[0-9]"
 #  define DEFAULT_OS_NAME	"srvm %[^\n]"
-# elif defined(USL) || defined(__USLC__)
+# elif defined(USL) || defined(__USLC__) || defined(__UNIXWARE__) || \
+	defined(__SCO__) || defined(__OPENSERVER__) || defined(_SCO_DS)
 /* uname -v returns "x.yz" or "x.y.z", e.g. "2.02" or "2.1.2". */
 #  define DEFAULT_OS_MAJOR_REV	"v %[0-9]"
 #  define DEFAULT_OS_MINOR_REV	"v %*d.%1s"
@@ -1115,6 +1139,24 @@ struct symtab	predefs[] = {
 #endif
 #ifdef __HIGHC__
 	{"__HIGHC__", "1"},
+#endif
+#ifdef __OPENSERVER__
+	{"__OPENSERVER__", DEF_STRINGIFY(__OPENSERVER__)},
+#endif
+#ifdef _SCO_DS
+	{"_SCO_DS", DEF_STRINGIFY(_SCO_DS)},
+#endif
+#ifdef _SCO_DS_LL
+	{"_SCO_DS_LL", DEF_STRINGIFY(_SCO_DS_LL)},
+#endif
+#ifdef __SCO_VERSION__
+	{"__SCO_VERSION__", DEF_STRINGIFY(__SCO_VERSION__)},
+#endif
+#ifdef __UNIXWARE__
+	{"__UNIXWARE__", DEF_STRINGIFY(__UNIXWARE__)},
+#endif
+#ifdef __USLC__
+	{"__USLC__", DEF_STRINGIFY(__USLC__)},
 #endif
 #ifdef CMU
 	{"CMU", "1"},
