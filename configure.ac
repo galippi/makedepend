@@ -20,6 +20,7 @@ dnl Check for pkg-config packages
 PKG_CHECK_MODULES(X, [xproto])
 AC_SUBST(X_CFLAGS)
 
+XORG_MANPAGE_SECTIONS
 XORG_RELEASE_VERSION
 
 AC_OUTPUT([Makefile])

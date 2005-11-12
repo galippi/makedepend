@@ -1,3 +1,9 @@
+2005-11-12  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+	* configure.ac: 
+	* Makefile.am:
+	Substitute variables in man page
+
 2005-11-09  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* configure.ac:
@@ -33,6 +39,34 @@
 	Initial attempt at autotooling.
 
 ChangeLog history excerpts from Xorg monolithic tree for releases 6.7 -> 6.9:
+
+2005-10-03  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+        * config/imake/imakemdep.h:
+        Bug #3812 <https://bugs.freedesktop.org/show_bug.cgi?id=3812>
+        Patch #3462 <https://bugs.freedesktop.org/attachment.cgi?id=3462>
+        GNU/kFreeBSD Imake support (Robert Millan)       
+	
+2005-07-31  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+        * config/imake/imakemdep.h: 
+        Pass through __BUILTIN_VA_STRUCT and __BUILTIN_VA_ARG_INCR defines
+        in makedepend so it doesn't issue errors when source files include
+        <varargs.h> or <stdarg.h> on Solaris 10.
+	
+2005-07-29  Kevin E. Martin  <kem-at-freedesktop-dot-org>
+
+        * config/makedepend/def.h:
+        Update #includes to use <X11/*.h> for modularization.
+
+2005-07-05  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+        * config/makedepend/main.c:
+        Bugzilla #2901 <https://bugs.freedesktop.org/show_bug.cgi?id=2901>
+        Patch #2320 <https://bugs.freedesktop.org/attachment.cgi?id=2320>
+
+        Remove warning about whitespace in pre-processor defines.
+        (Peter Breitenlohner)
 
 2005-05-15  Alan Coopersmith  <alan.coopersmith@sun.com>
 
@@ -166,4 +200,4 @@ XFree86 3.1.1c (12 March 1995)
       xf86_OSlib.h to be cleaned up a little.
 
 [X.Org, Open Group & X Consortium change logs from X11R6.6 and earlier are
- not available.]
+ not available at this time.]
