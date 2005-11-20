@@ -24,7 +24,6 @@ appmandir =  $(mandir)/man$(APP_MAN_SUFFIX)
 appman_SOURCES = makedepend.man
 appman_DATA = $(appman_SOURCES:man=@APP_MAN_SUFFIX@)
 
-EXTRA_DIST = $(appman_SOURCES)
 CLEANFILES = $(appman_DATA)
 
 SED = sed
