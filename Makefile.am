@@ -19,7 +19,7 @@ makedepend_CPPFLAGS = -DOBJSUFFIX=\".${OBJEXT}\" -DINCLUDEDIR=\"/usr/include\"
 EXTRA_DIST = autogen.sh makedepend.man
 
 # Man page
-appmandir =  $(mandir)/man$(APP_MAN_SUFFIX)
+appmandir = $(APP_MAN_DIR)
 
 appman_SOURCES = makedepend.man
 appman_DATA = $(appman_SOURCES:man=@APP_MAN_SUFFIX@)
