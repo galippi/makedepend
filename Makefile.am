@@ -21,8 +21,8 @@ EXTRA_DIST = autogen.sh makedepend.man
 # Man page
 appmandir = $(APP_MAN_DIR)
 
-appman_SOURCES = makedepend.man
-appman_DATA = $(appman_SOURCES:man=@APP_MAN_SUFFIX@)
+appman_PRE = makedepend.man
+appman_DATA = $(appman_PRE:man=@APP_MAN_SUFFIX@)
 
 CLEANFILES = $(appman_DATA)
 
