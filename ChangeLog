@@ -1,3 +1,8 @@
+2006-06-02  Alan Coopersmith  <alan.coopersmith@sun.com>
+
+	* parse.c (slookup): 
+	Coverity #925: Pointer "file" dereferenced before NULL check
+
 2005-12-14  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* configure.ac:
