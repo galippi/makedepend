@@ -85,9 +85,7 @@ char	*directives[] = {
 	NULL
 };
 
-#define MAKEDEPEND
-#include "imakemdep.h"	/* from config sources */
-#undef MAKEDEPEND
+#include "imakemdep.h"
 
 struct	inclist inclist[ MAXFILES ],
 		*inclistp = inclist,
