@@ -14,7 +14,7 @@ makedepend_SOURCES = include.c \
                      def.h \
                      imakemdep.h
 
-makedepend_CPPFLAGS = -DOBJSUFFIX=\".${OBJEXT}\" -DINCLUDEDIR=\"/usr/include\"
+AM_CPPFLAGS = -DOBJSUFFIX=\".${OBJEXT}\" -DINCLUDEDIR=\"/usr/include\"
 
 EXTRA_DIST = autogen.sh makedepend.man
 
