@@ -79,6 +79,15 @@ struct symtab	predefs[] = {
 #ifdef sun4
 	{"sun4", "1"},
 #endif
+#ifdef __sun
+	{"__sun", "1"},
+#endif
+#ifdef __SunOS
+	{"__SunOS", "1"},
+#endif
+#ifdef __SVR4
+	{"__SVR4", "1"},
+#endif
 #ifdef sparc
 	{"sparc", "1"},
 #endif
@@ -249,6 +258,9 @@ struct symtab	predefs[] = {
 #endif
 #ifdef __decc
 	{"__decc",  "1"},
+#endif
+#ifdef __unix
+	{"__unix", "1"},
 #endif
 #ifdef __unix__
 	{"__unix__", "1"},

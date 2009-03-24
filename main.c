@@ -48,6 +48,10 @@ in this Software without prior written authorization from The Open Group.
 
 #include <stdarg.h>
 
+#ifdef __sun
+# include <sys/utsname.h>
+#endif
+
 #ifdef DEBUG
 int	_debugmask;
 #endif
@@ -170,6 +174,25 @@ main(int argc, char *argv[])
 	    define2(psymp->s_name, psymp->s_value, &maininclist);
 	    psymp++;
 	}
+#ifdef __sun
+	/* Solaris predefined values that are computed, not hardcoded */
+	{
+	    struct utsname name;
+
+	    if (uname(&name) >= 0) {
+		char osrevdef[SYS_NMLN + SYS_NMLN + 5];
+		snprintf(osrevdef, sizeof(osrevdef), "__%s_%s",
+			 name.sysname, name.release);
+
+		for (p = osrevdef; *p != '\0'; p++) {
+		    if (!isalnum(*p)) {
+			*p = '_';
+		    }
+		}
+		define2(osrevdef, "1", &maininclist);
+	    }
+	}
+#endif
 	if (argc == 2 && argv[1][0] == '@') {
 	    struct stat ast;
 	    int afd;
