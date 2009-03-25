@@ -38,13 +38,6 @@ in this Software without prior written authorization from The Open Group.
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#if 0
-#ifndef X_NOT_POSIX
-#ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE
-#endif
-#endif
-#endif
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/stat.h>
