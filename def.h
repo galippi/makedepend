@@ -139,9 +139,6 @@ struct filepointer {
 };
 
 #include <stdlib.h>
-#if defined(macII) && !defined(__STDC__)  /* stdlib.h fails to define these */
-char *malloc(), *realloc();
-#endif /* macII */
 
 char			*copy(char *str);
 int                     match(char *str, char **list);
