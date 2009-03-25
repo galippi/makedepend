@@ -1,11 +1,16 @@
-dnl $XdotOrg: $
 AC_PREREQ([2.57])
 AC_INIT([makedepend], [1.0.1], [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg])
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_CONFIG_HEADER([makedepend-config.h])
 
+# Require xorg-macros: XORG_CWARNFLAGS, XORG_CHANGELOG, XORG_WITH_LINT
+m4_ifndef([XORG_MACROS_VERSION], [AC_FATAL([must install xorg-macros 1.2 or later before running autoconf/autogen])])
+XORG_MACROS_VERSION(1.2)
+
 dnl Checks for programs.
 AC_PROG_CC
+XORG_CWARNFLAGS
+XORG_WITH_LINT
 
 dnl Replacement for Imake SIGNAL_DEFINES
 AC_TYPE_SIGNAL
@@ -22,5 +27,6 @@ AC_SUBST(X_CFLAGS)
 
 XORG_MANPAGE_SECTIONS
 XORG_RELEASE_VERSION
+XORG_CHANGELOG
 
 AC_OUTPUT([Makefile])
