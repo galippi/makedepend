@@ -143,7 +143,7 @@ catch (int sig)
 #define sa_mask sv_mask
 #define sa_flags sv_flags
 #endif
-struct sigaction sig_act;
+static struct sigaction sig_act;
 #endif /* USGISH */
 
 #ifndef USING_AUTOCONF

@@ -71,7 +71,7 @@ lookup_variable (IfParser *ip, const char *var, int len)
     struct _parse_data *pd = (struct _parse_data *) ip->data;
 
     if (len > MAXNAMELEN)
-	return 0;
+	return NULL;
 
     strncpy (tmpbuf, var, len);
     tmpbuf[len] = '\0';

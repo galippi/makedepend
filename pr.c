@@ -53,10 +53,10 @@ add_include(struct filepointer *filep, struct inclist *file,
 		if (failOK)
 		    return;
 		if (file != file_red)
-			warning("%s (reading %s, line %d): ",
+			warning("%s (reading %s, line %ld): ",
 				file_red->i_file, file->i_file, filep->f_line);
 		else
-			warning("%s, line %d: ", file->i_file, filep->f_line);
+			warning("%s, line %ld: ", file->i_file, filep->f_line);
 		warning1("cannot find include file \"%s\"\n", include);
 		show_where_not = TRUE;
 		newfile = inc_path(file->i_file, include, type);
