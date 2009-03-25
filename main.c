@@ -66,9 +66,9 @@ int	_debugmask;
 #define DASH_INC_PRE    "#include \""
 #define DASH_INC_POST   "\""
 
-char *ProgramName;
+const char *ProgramName;
 
-char	*directives[] = {
+const char * const directives[] = {
 	"if",
 	"ifdef",
 	"ifndef",
@@ -97,7 +97,7 @@ struct	inclist inclist[ MAXFILES ],
 		maininclist;
 
 static char	*filelist[ MAXFILES ];
-char		*includedirs[ MAXDIRS + 1 ],
+const char	*includedirs[ MAXDIRS + 1 ],
 		**includedirsnext = includedirs;
 char		*notdotdot[ MAXDIRS ];
 static int	cmdinc_count = 0;
@@ -114,7 +114,7 @@ boolean		show_where_not = FALSE;
 boolean 	warn_multiple = FALSE;
 
 static void setfile_cmdinc(struct filepointer *filep, long count, char **list);
-static void redirect(char *line, char *makefile);
+static void redirect(const char *line, const char *makefile);
 
 static
 #ifdef RETSIGTYPE
@@ -156,12 +156,12 @@ int
 main(int argc, char *argv[])
 {
 	char	**fp = filelist;
-	char	**incp = includedirs;
+	const char	**incp = includedirs;
 	char	*p;
 	struct inclist	*ip;
 	char	*makefile = NULL;
 	struct filepointer	*filecontent;
-	struct symtab *psymp = predefs;
+	const struct symtab *psymp = predefs;
 	char *endmarker = NULL;
 	char *defincdir = NULL;
 	char **undeflist = NULL;
@@ -550,7 +550,7 @@ elim_cr(char *buf, int sz)
 #endif
 
 struct filepointer *
-getfile(char *file)
+getfile(const char *file)
 {
 	int	fd;
 	struct filepointer	*content;
@@ -600,16 +600,8 @@ freefile(struct filepointer *fp)
 	free(fp);
 }
 
-char *copy(char *str)
-{
-	char	*p = (char *)malloc(strlen(str) + 1);
-
-	strcpy(p, str);
-	return(p);
-}
-
 int
-match(char *str, char **list)
+match(const char *str, const char * const *list)
 {
 	int	i;
 
@@ -750,11 +742,10 @@ done:
  * Strip the file name down to what we want to see in the Makefile.
  * It will have objprefix and objsuffix around it.
  */
-char *base_name(char *file)
+char *base_name(const char *in_file)
 {
 	char	*p;
-
-	file = copy(file);
+	char	*file = copy(in_file);
 	for(p=file+strlen(file); p>file && *p != '.'; p--) ;
 
 	if (*p == '.')
@@ -785,8 +776,8 @@ int rename (char *from, char *to)
 }
 #endif /* NEED_RENAME */
 
-void
-redirect(char *line, char *makefile)
+static void
+redirect(const char *line, const char *makefile)
 {
 	struct stat	st;
 	FILE	*fdin, *fdout;
@@ -856,7 +847,7 @@ redirect(char *line, char *makefile)
 }
 
 void
-fatalerr(char *msg, ...)
+fatalerr(const char *msg, ...)
 {
 	va_list args;
 	fprintf(stderr, "%s: error:  ", ProgramName);
@@ -867,7 +858,7 @@ fatalerr(char *msg, ...)
 }
 
 void
-warning(char *msg, ...)
+warning(const char *msg, ...)
 {
 	va_list args;
 	fprintf(stderr, "%s: warning:  ", ProgramName);
@@ -877,7 +868,7 @@ warning(char *msg, ...)
 }
 
 void
-warning1(char *msg, ...)
+warning1(const char *msg, ...)
 {
 	va_list args;
 	va_start(args, msg);

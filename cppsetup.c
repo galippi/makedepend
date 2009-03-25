@@ -29,10 +29,11 @@ in this Software without prior written authorization from The Open Group.
 #include "def.h"
 
 #include "ifparser.h"
+
 struct _parse_data {
     struct filepointer *filep;
     struct inclist *inc;
-    char *filename;
+    const char *filename;
     const char *line;
 };
 
@@ -41,7 +42,7 @@ my_if_errors (IfParser *ip, const char *cp, const char *expecting)
 {
     struct _parse_data *pd = (struct _parse_data *) ip->data;
     int lineno = pd->filep->f_line;
-    char *filename = pd->filename;
+    const char *filename = pd->filename;
     char prefix[300];
     int prefixlen;
     int i;
@@ -111,8 +112,8 @@ my_eval_variable (IfParser *ip, const char *var, int len)
 }
 
 int
-cppsetup(char *filename,
-	 char *line,
+cppsetup(const char *filename,
+	 const char *line,
 	 struct filepointer *filep,
 	 struct inclist *inc)
 {

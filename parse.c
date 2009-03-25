@@ -28,12 +28,12 @@ in this Software without prior written authorization from The Open Group.
 
 #include "def.h"
 
-extern char	*directives[];
+extern const char * const directives[];
 extern struct inclist	inclist[ MAXFILES ],
 			*inclistnext,
 			maininclist;
-extern char	*includedirs[ ],
-		**includedirsnext;
+extern const char	*includedirs[ ],
+			**includedirsnext;
 
 static int deftype (char *line, struct filepointer *filep,
 		    struct inclist *file_red, struct inclist *file,
@@ -555,7 +555,7 @@ find_includes(struct filepointer *filep, struct inclist *file,
 	      struct inclist *file_red, int recursion, boolean failOK)
 {
 	struct inclist	*inclistp;
-	char		**includedirsp;
+	const char	**includedirsp;
 	register char	*line;
 	register int	type;
 	boolean recfailOK;

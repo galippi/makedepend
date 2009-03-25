@@ -48,7 +48,7 @@ in this Software without prior written authorization from The Open Group.
 #undef DEF_STRINGIFY
 #define DEF_EVALUATE(__x) #__x
 #define DEF_STRINGIFY(_x) DEF_EVALUATE(_x)
-struct symtab	predefs[] = {
+const struct symtab	predefs[] = {
 #ifdef apollo
 	{"apollo", "1"},
 #endif

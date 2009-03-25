@@ -120,7 +120,7 @@ struct	inclist {
 };
 
 struct filepointer {
-	char	*f_name;
+	const char	*f_name;
 	char	*f_p;
 	char	*f_base;
 	char	*f_end;
@@ -133,21 +133,23 @@ struct filepointer {
 
 #include <stdlib.h>
 
-char			*copy(char *str);
-int                     match(char *str, char **list);
-char			*base_name(char *file);
+#define copy(s)		strdup(s)
+int                     match(const char *str, const char * const *list);
+char			*base_name(const char *file);
 char			*getnextline(struct filepointer *fp);
 struct symtab		**slookup(char *symbol, struct inclist *file);
 struct symtab		**isdefined(char *symbol, struct inclist *file,
 				    struct inclist **srcfile);
 struct symtab		**fdefined(char *symbol, struct inclist *file,
 				   struct inclist **srcfile);
-struct filepointer	*getfile(char *file);
+struct filepointer	*getfile(const char *file);
 void                    included_by(struct inclist *ip, 
 				    struct inclist *newfile);
-struct inclist		*newinclude(char *newfile, char *incstring);
+struct inclist		*newinclude(const char *newfile,
+				    const char *incstring);
 void                    inc_clean (void);
-struct inclist		*inc_path(char *file, char *include, int type);
+struct inclist		*inc_path(const char *file, const char *include,
+				  int type);
 
 void                    freefile(struct filepointer *fp);
 
@@ -160,19 +162,20 @@ int                     find_includes(struct filepointer *filep,
 				      int recursion, boolean failOK);
 
 void                    recursive_pr_include(struct inclist *head, 
-					     char *file, char *base);
+					     const char *file,
+					     const char *base);
 void                    add_include(struct filepointer *filep, 
 				    struct inclist *file, 
 				    struct inclist *file_red, 
-				    char *include, int type,
+				    const char *include, int type,
 				    boolean failOK);
 
-int                     cppsetup(char *filename,
-				 char *line,
+int                     cppsetup(const char *filename,
+				 const char *line,
 				 struct filepointer *filep,
 				 struct inclist *inc);
 
 
-extern void fatalerr(char *, ...);
-extern void warning(char *, ...);
-extern void warning1(char *, ...);
+extern void fatalerr(const char *, ...);
+extern void warning(const char *, ...);
+extern void warning1(const char *, ...);

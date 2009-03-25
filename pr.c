@@ -39,7 +39,7 @@ extern boolean	show_where_not;
 
 void
 add_include(struct filepointer *filep, struct inclist *file, 
-	    struct inclist *file_red, char *include, int type,
+	    struct inclist *file_red, const char *include, int type,
 	    boolean failOK)
 {
 	register struct inclist	*newfile;
@@ -75,9 +75,9 @@ add_include(struct filepointer *filep, struct inclist *file,
 }
 
 static void
-pr(struct inclist *ip, char *file, char *base)
+pr(struct inclist *ip, const char *file, const char *base)
 {
-	static char	*lastfile;
+	static const char *lastfile;
 	static int	current_len;
 	register int	len, i;
 	char	buf[ BUFSIZ ];
@@ -110,7 +110,7 @@ pr(struct inclist *ip, char *file, char *base)
 }
 
 void
-recursive_pr_include(struct inclist *head, char *file, char *base)
+recursive_pr_include(struct inclist *head, const char *file, const char *base)
 {
 	int	i;
 
