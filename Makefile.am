@@ -1,4 +1,3 @@
-# $XdotOrg: $
 
 bin_PROGRAMS = makedepend
 
