@@ -68,3 +68,23 @@ ALL_LINT_FLAGS=$(LINT_FLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 lint:
 	$(LINT) $(ALL_LINT_FLAGS) $(makedepend_SOURCES)
 endif LINT
+
+### Test cases - mostly for bug fixes submitted with a test case so far
+TESTS =
+
+# Absolute path to srcdir & builddir top that test scripts can reference
+TEST_BUILDDIR_PATH = `cd $(top_builddir) && pwd`
+TEST_SRCDIR_PATH = `cd $(top_srcdir) && pwd`
+
+# Path to makedepend command being tested that can be found from test subdirs
+TESTS_ENVIRONMENT = MAKEDEPEND="$(TEST_BUILDDIR_PATH)/makedepend"
+
+# Path to writable testdirectory in build directory
+TESTS_ENVIRONMENT += test_builddir="$(TEST_BUILDDIR_PATH)/tests"
+
+# Path to testcase files in source directory
+TESTS_ENVIRONMENT += test_srcdir="$(TEST_SRCDIR_PATH)/tests"
+
+# Test for https://bugs.freedesktop.org/show_bug.cgi?id=28045
+TESTS += tests/28045/makedep.sh
+EXTRA_DIST += tests/28045/makedep.sh tests/28045/foo.cpp
