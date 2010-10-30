@@ -1,5 +1,6 @@
 AC_PREREQ([2.60])
-AC_INIT([makedepend], [1.0.2], [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg])
+AC_INIT([makedepend], [1.0.3],
+        [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg])
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_CONFIG_HEADER([makedepend-config.h])
 
