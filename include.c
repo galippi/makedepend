@@ -56,7 +56,7 @@ issymbolic(const char *dir, const char *component)
 			return (TRUE);
 	if (lstat(buf, &st) == 0
 	&& (st.st_mode & S_IFMT) == S_IFLNK) {
-		*pp++ = copy(buf);
+		*pp++ = strdup(buf);
 		if (pp >= &notdotdot[ MAXDIRS ])
 			fatalerr("out of .. dirs, increase MAXDIRS\n");
 		return(TRUE);
@@ -153,12 +153,12 @@ newinclude(const char *newfile, const char *incstring)
 	ip = inclistp++;
 	if (inclistp == inclist + MAXFILES - 1)
 		fatalerr("out of space: increase MAXFILES\n");
-	ip->i_file = copy(newfile);
+	ip->i_file = strdup(newfile);
 
 	if (incstring == NULL)
 		ip->i_incstring = ip->i_file;
 	else
-		ip->i_incstring = copy(incstring);
+		ip->i_incstring = strdup(incstring);
 
 	inclistnext = inclistp;
 	return(ip);

@@ -376,7 +376,7 @@ define2(const char *name, const char *val, struct inclist *file)
 	debug(1,("redefining %s from %s to %s in file %s\n",
 		name, (*sp)->s_value, val, file->i_file));
 	free((*sp)->s_value);
-	(*sp)->s_value = copy(val);
+	(*sp)->s_value = strdup(val);
 	return;
     }
 
@@ -392,8 +392,8 @@ define2(const char *name, const char *val, struct inclist *file)
 	fatalerr("malloc()/realloc() failure in insert_defn()\n");
 
     debug(1,("defining %s to %s in file %s\n", name, val, file->i_file));
-    stab->s_name = copy(name);
-    stab->s_value = copy(val);
+    stab->s_name = strdup(name);
+    stab->s_value = strdup(val);
     *sp = stab;
 }
 

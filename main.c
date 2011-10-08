@@ -742,7 +742,7 @@ done:
 char *base_name(const char *in_file)
 {
 	char	*p;
-	char	*file = copy(in_file);
+	char	*file = strdup(in_file);
 	for(p=file+strlen(file); p>file && *p != '.'; p--) ;
 
 	if (*p == '.')

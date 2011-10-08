@@ -130,7 +130,6 @@ struct filepointer {
 
 #include <stdlib.h>
 
-#define copy(s)		strdup(s)
 int                     match(const char *str, const char * const *list);
 char			*base_name(const char *file);
 char			*getnextline(struct filepointer *fp);
