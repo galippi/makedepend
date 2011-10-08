@@ -99,8 +99,8 @@ gobble(struct filepointer *filep, struct inclist *file,
 /*
  * Decide what type of # directive this line is.
  */
-static int 
-deftype (char *line, struct filepointer *filep, 
+static int
+deftype (char *line, struct filepointer *filep,
 	     struct inclist *file_red, struct inclist *file, int parse_it)
 {
 	register char	*p;
@@ -210,7 +210,7 @@ deftype (char *line, struct filepointer *filep,
 			       (*sym) -> s_name,
 			       (*sym) -> s_value));
 			/* mark file as having included a 'soft include' */
-			file->i_flags |= INCLUDED_SYM; 
+			file->i_flags |= INCLUDED_SYM;
 		}
 
 		/*
@@ -357,14 +357,14 @@ define2(char *name, char *val, struct inclist *file)
 	    if (s2[-1] == '\0') break;
 
 	/* If exact match, set sp and break */
-	if (*--s1 == *--s2) 
+	if (*--s1 == *--s2)
 	{
 	    sp = file->i_defs + middle;
 	    break;
 	}
 
 	/* If name > i_defs[middle] ... */
-	if (*s1 > *s2) 
+	if (*s1 > *s2)
 	{
 	    below = first;
 	    first = middle + 1;
@@ -433,7 +433,7 @@ slookup(char *symbol, struct inclist *file)
 	    return NULL;
 
 	last = file->i_ndefs - 1;
-	
+
 	while (last >= first)
 	{
 	    /* Fast inline binary search */
@@ -448,13 +448,13 @@ slookup(char *symbol, struct inclist *file)
 	        if (s2[-1] == '\0') break;
 
 	    /* If exact match, we're done */
-	    if (*--s1 == *--s2) 
+	    if (*--s1 == *--s2)
 	    {
 	        return file->i_defs + middle;
 	    }
 
 	    /* If symbol > i_defs[middle] ... */
-	    if (*s1 > *s2) 
+	    if (*s1 > *s2)
 	    {
 	        first = middle + 1;
 	    }
@@ -467,7 +467,7 @@ slookup(char *symbol, struct inclist *file)
 	return(NULL);
 }
 
-static int 
+static int
 merge2defines(struct inclist *file1, struct inclist *file2)
 {
 	int i;
@@ -495,7 +495,7 @@ merge2defines(struct inclist *file1, struct inclist *file2)
 			file2->i_file, file1->i_file));
 
                 if (deflen>0)
-                { 
+                {
                 	/* make sure deflen % SYMTABINC == 0 is still true */
                 	deflen += (SYMTABINC - deflen % SYMTABINC) % SYMTABINC;
                 	i_defs=(struct symtab**)
@@ -530,7 +530,7 @@ merge2defines(struct inclist *file1, struct inclist *file2)
                 if (file1->i_defs) free(file1->i_defs);
                 file1->i_defs=i_defs;
                 file1->i_ndefs=first;
-                
+
 		return 1;
   	}
 }
@@ -549,7 +549,7 @@ undefine(char *symbol, struct inclist *file)
 }
 
 int
-find_includes(struct filepointer *filep, struct inclist *file, 
+find_includes(struct filepointer *filep, struct inclist *file,
 	      struct inclist *file_red, int recursion, boolean failOK)
 {
 	struct inclist	*inclistp;
@@ -661,7 +661,7 @@ find_includes(struct filepointer *filep, struct inclist *file,
 			warning1(", line %ld: %s\n",
 				 filep->f_line, line);
 		    	break;
-		    
+
 		case PRAGMA:
 		case IDENT:
 		case SCCS:
