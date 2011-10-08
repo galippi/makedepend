@@ -412,8 +412,9 @@ define(char *def, struct inclist *file)
 	val++;
 
     if (!*val)
-	val = "1";
-    define2(def, val, file);
+	define2(def, "1", file);
+    else
+	define2(def, val, file);
 }
 
 struct symtab **
