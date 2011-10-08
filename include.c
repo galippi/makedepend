@@ -27,14 +27,6 @@ in this Software without prior written authorization from The Open Group.
 
 #include "def.h"
 
-extern struct	inclist	inclist[ MAXFILES ],
-			*inclistp, *inclistnext;
-extern const char	*includedirs[ ],
-			**includedirsnext;
-extern char	*notdotdot[ ];
-extern boolean show_where_not;
-extern boolean warn_multiple;
-
 static boolean
 isdot(const char *p)
 {

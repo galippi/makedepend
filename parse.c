@@ -26,13 +26,6 @@ in this Software without prior written authorization from The Open Group.
 
 #include "def.h"
 
-extern const char * const directives[];
-extern struct inclist	inclist[ MAXFILES ],
-			*inclistnext,
-			maininclist;
-extern const char	*includedirs[ ],
-			**includedirsnext;
-
 static int deftype (char *line, struct filepointer *filep,
 		    struct inclist *file_red, struct inclist *file,
 		    int parse_it);

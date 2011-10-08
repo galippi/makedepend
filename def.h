@@ -176,3 +176,20 @@ int                     cppsetup(const char *filename,
 extern void fatalerr(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 extern void warning(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 extern void warning1(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
+
+extern struct inclist	  inclist[ MAXFILES ];
+extern struct inclist    *inclistp;
+extern struct inclist    *inclistnext;
+extern struct inclist     maininclist;
+extern const char        *includedirs[ ];
+extern const char       **includedirsnext;
+extern const char * const directives[];
+extern char              *notdotdot[ ];
+
+extern char              *objprefix;
+extern char              *objsuffix;
+extern int          	  width;
+extern boolean            printed;
+extern boolean            verbose;
+extern boolean            show_where_not;
+extern boolean            warn_multiple;
