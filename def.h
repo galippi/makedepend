@@ -134,10 +134,10 @@ struct filepointer {
 int                     match(const char *str, const char * const *list);
 char			*base_name(const char *file);
 char			*getnextline(struct filepointer *fp);
-struct symtab		**slookup(char *symbol, struct inclist *file);
-struct symtab		**isdefined(char *symbol, struct inclist *file,
+struct symtab		**slookup(const char *symbol, struct inclist *file);
+struct symtab		**isdefined(const char *symbol, struct inclist *file,
 				    struct inclist **srcfile);
-struct symtab		**fdefined(char *symbol, struct inclist *file,
+struct symtab		**fdefined(const char *symbol, struct inclist *file,
 				   struct inclist **srcfile);
 struct filepointer	*getfile(const char *file);
 void                    included_by(struct inclist *ip,
@@ -150,9 +150,10 @@ struct inclist		*inc_path(const char *file, const char *include,
 
 void                    freefile(struct filepointer *fp);
 
-void                    define2(char *name, char *val, struct inclist *file);
+void                    define2(const char *name, const char *val,
+				struct inclist *file);
 void                    define(char *def, struct inclist *file);
-void                    undefine(char *symbol, struct inclist *file);
+void                    undefine(const char *symbol, struct inclist *file);
 int                     find_includes(struct filepointer *filep,
 				      struct inclist *file,
 				      struct inclist *file_red,
@@ -186,8 +187,8 @@ extern const char       **includedirsnext;
 extern const char * const directives[];
 extern char              *notdotdot[ ];
 
-extern char              *objprefix;
-extern char              *objsuffix;
+extern const char        *objprefix;
+extern const char        *objsuffix;
 extern int          	  width;
 extern boolean            printed;
 extern boolean            verbose;

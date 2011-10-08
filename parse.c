@@ -251,7 +251,7 @@ deftype (char *line, struct filepointer *filep,
 }
 
 struct symtab **
-fdefined(char *symbol, struct inclist *file, struct inclist **srcfile)
+fdefined(const char *symbol, struct inclist *file, struct inclist **srcfile)
 {
 	struct inclist	**ip;
 	struct symtab	**val;
@@ -282,7 +282,7 @@ fdefined(char *symbol, struct inclist *file, struct inclist **srcfile)
 }
 
 struct symtab **
-isdefined(char *symbol, struct inclist *file, struct inclist **srcfile)
+isdefined(const char *symbol, struct inclist *file, struct inclist **srcfile)
 {
 	struct symtab	**val;
 
@@ -313,7 +313,7 @@ zero_value(char *filename,
 }
 
 void
-define2(char *name, char *val, struct inclist *file)
+define2(const char *name, const char *val, struct inclist *file)
 {
     int first, last, below;
     register struct symtab **sp = NULL, **dest;
@@ -339,8 +339,8 @@ define2(char *name, char *val, struct inclist *file)
     while (last >= first)
     {
 	/* Fast inline binary search */
-	register char *s1;
-	register char *s2;
+	register const char *s1;
+	register const char *s2;
 	register int middle = (first + last) / 2;
 
 	/* Fast inline strchr() */
@@ -417,7 +417,7 @@ define(char *def, struct inclist *file)
 }
 
 struct symtab **
-slookup(char *symbol, struct inclist *file)
+slookup(const char *symbol, struct inclist *file)
 {
 	register int first = 0;
 	register int last;
@@ -430,8 +430,8 @@ slookup(char *symbol, struct inclist *file)
 	while (last >= first)
 	{
 	    /* Fast inline binary search */
-	    register char *s1;
-	    register char *s2;
+	    register const char *s1;
+	    register const char *s2;
 	    register int middle = (first + last) / 2;
 
 	    /* Fast inline strchr() */
@@ -529,7 +529,7 @@ merge2defines(struct inclist *file1, struct inclist *file2)
 }
 
 void
-undefine(char *symbol, struct inclist *file)
+undefine(const char *symbol, struct inclist *file)
 {
 	register struct symtab **ptr;
 	struct inclist *srcfile;

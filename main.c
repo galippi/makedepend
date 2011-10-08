@@ -99,9 +99,9 @@ const char	*includedirs[ MAXDIRS + 1 ],
 char		*notdotdot[ MAXDIRS ];
 static int	cmdinc_count = 0;
 static char	*cmdinc_list[ 2 * MAXINCFILES ];
-char		*objprefix = "";
-char		*objsuffix = OBJSUFFIX;
-static char	*startat = "# DO NOT DELETE";
+const char	*objprefix = "";
+const char	*objsuffix = OBJSUFFIX;
+static const char	*startat = "# DO NOT DELETE";
 int		width = 78;
 static boolean	append = FALSE;
 boolean		printed = FALSE;
@@ -159,7 +159,7 @@ main(int argc, char *argv[])
 	char	*makefile = NULL;
 	struct filepointer	*filecontent;
 	const struct symtab *psymp = predefs;
-	char *endmarker = NULL;
+	const char *endmarker = NULL;
 	char *defincdir = NULL;
 	char **undeflist = NULL;
 	int numundefs = 0, i;
