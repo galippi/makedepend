@@ -743,7 +743,7 @@ redirect(const char *line, const char *makefile)
 	    stat(makefile, &st);
 	if ((fdin = fopen(makefile, "r")) == NULL)
 		fatalerr("cannot open \"%s\"\n", makefile);
-	sprintf(backup, "%s.bak", makefile);
+	snprintf(backup, sizeof(backup), "%s.bak", makefile);
 	unlink(backup);
 #if defined(WIN32) || defined(__CYGWIN__)
 	fclose(fdin);
