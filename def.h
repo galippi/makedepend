@@ -24,9 +24,8 @@ in this Software without prior written authorization from The Open Group.
 
 */
 
-#ifdef HAVE_CONFIG_H /* Autotooled for Xorg 7.0? */
+#ifdef HAVE_CONFIG_H
 # include "makedepend-config.h"
-# define USING_AUTOCONF
 #endif
 
 #include <X11/Xos.h>

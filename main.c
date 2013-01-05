@@ -113,16 +113,7 @@ boolean 	warn_multiple = FALSE;
 static void setfile_cmdinc(struct filepointer *filep, long count, char **list);
 static void redirect(const char *line, const char *makefile);
 
-static
-#ifdef RETSIGTYPE
-RETSIGTYPE
-#else
-# ifdef SIGNALRETURNSINT
-int
-# else
-void
-# endif
-#endif
+static RETSIGTYPE
 catch (int sig)
 {
 	fflush (stdout);
@@ -142,12 +133,6 @@ catch (int sig)
 #endif
 static struct sigaction sig_act;
 #endif /* USGISH */
-
-#ifndef USING_AUTOCONF
-# if !defined(USGISH) && !defined(_SEQUENT_) && !defined(MINIX)
-#  define HAVE_FCHMOD	1
-# endif
-#endif
 
 int
 main(int argc, char *argv[])
@@ -712,17 +697,7 @@ char *base_name(const char *in_file)
 	return(file);
 }
 
-#ifdef USING_AUTOCONF
-# ifndef HAVE_RENAME
-#  define NEED_RENAME
-# endif
-#else /* Imake configured, check known OS'es without rename() */
-# if defined(USG) && !defined(CRAY) && !defined(SVR4) && !defined(clipper) && !defined(__clipper__)
-#  define NEED_RENAME
-# endif
-#endif
-
-#ifdef NEED_RENAME
+#ifndef HAVE_RENAME
 int rename (char *from, char *to)
 {
     (void) unlink (to);
@@ -733,7 +708,7 @@ int rename (char *from, char *to)
 	return -1;
     }
 }
-#endif /* NEED_RENAME */
+#endif /* !HAVE_RENAME */
 
 static void
 redirect(const char *line, const char *makefile)
