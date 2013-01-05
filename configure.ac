@@ -18,7 +18,6 @@ m4_ifndef([XORG_MACROS_VERSION],
 XORG_MACROS_VERSION(1.8)
 
 dnl Checks for programs.
-AC_PROG_CC
 XORG_DEFAULT_OPTIONS
 XORG_WITH_LINT
 
@@ -33,6 +32,5 @@ AC_SYS_LARGEFILE
 
 dnl Check for pkg-config packages
 PKG_CHECK_MODULES(X, [xproto])
-AC_SUBST(X_CFLAGS)
 
 AC_OUTPUT([Makefile])
