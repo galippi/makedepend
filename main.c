@@ -129,7 +129,7 @@ catch (int sig)
 	fatalerr ("got signal %d\n", sig);
 }
 
-#if defined(USG) || (defined(i386) && defined(SYSV)) || defined(WIN32) || defined(__UNIXOS2__) || defined(Lynx_22) || defined(__CYGWIN__)
+#if defined(USG) || (defined(i386) && defined(SYSV)) || defined(WIN32) || defined(Lynx_22) || defined(__CYGWIN__)
 #define USGISH
 #endif
 
@@ -403,29 +403,9 @@ main(int argc, char *argv[])
 		fatalerr("Too many -I flags.\n");
 	    *incp++ = PREINCDIR;
 #endif
-#ifdef __UNIXOS2__
-	    {
-		char *emxinc = getenv("C_INCLUDE_PATH");
-		/* can have more than one component */
-		if (emxinc) {
-		    char *beg, *end;
-		    beg= (char*)strdup(emxinc);
-		    for (;;) {
-			end = (char*)strchr(beg,';');
-			if (end) *end = 0;
-		    	if (incp >= includedirs + MAXDIRS)
-				fatalerr("Too many include dirs\n");
-			*incp++ = beg;
-			if (!end) break;
-			beg = end+1;
-		    }
-		}
-	    }
-#else /* !__UNIXOS2__, does not use INCLUDEDIR at all */
 	    if (incp >= includedirs + MAXDIRS)
 		fatalerr("Too many -I flags.\n");
 	    *incp++ = INCLUDEDIR;
-#endif
 
 #ifdef EXTRAINCDIR
 	    if (incp >= includedirs + MAXDIRS)
@@ -530,21 +510,6 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-#ifdef __UNIXOS2__
-/*
- * eliminate \r chars from file
- */
-static int
-elim_cr(char *buf, int sz)
-{
-	int i,wp;
-	for (i= wp = 0; i<sz; i++) {
-		if (buf[i] != '\r')
-			buf[wp++] = buf[i];
-	}
-	return wp;
-}
-#endif
 
 struct filepointer *
 getfile(const char *file)
@@ -567,9 +532,6 @@ getfile(const char *file)
 		fatalerr("cannot allocate mem\n");
 	if ((st.st_size = read(fd, content->f_base, st.st_size)) < 0)
 		fatalerr("failed to read %s\n", file);
-#ifdef __UNIXOS2__
-	st.st_size = elim_cr(content->f_base,st.st_size);
-#endif
 	close(fd);
 	content->f_len = st.st_size+1;
 	content->f_p = content->f_base;
@@ -755,7 +717,7 @@ char *base_name(const char *in_file)
 #  define NEED_RENAME
 # endif
 #else /* Imake configured, check known OS'es without rename() */
-# if defined(USG) && !defined(CRAY) && !defined(SVR4) && !defined(__UNIXOS2__) && !defined(clipper) && !defined(__clipper__)
+# if defined(USG) && !defined(CRAY) && !defined(SVR4) && !defined(clipper) && !defined(__clipper__)
 #  define NEED_RENAME
 # endif
 #endif
@@ -808,12 +770,12 @@ redirect(const char *line, const char *makefile)
 		fatalerr("cannot open \"%s\"\n", makefile);
 	sprintf(backup, "%s.bak", makefile);
 	unlink(backup);
-#if defined(WIN32) || defined(__UNIXOS2__) || defined(__CYGWIN__)
+#if defined(WIN32) || defined(__CYGWIN__)
 	fclose(fdin);
 #endif
 	if (rename(makefile, backup) < 0)
 		fatalerr("cannot rename %s to %s\n", makefile, backup);
-#if defined(WIN32) || defined(__UNIXOS2__) || defined(__CYGWIN__)
+#if defined(WIN32) || defined(__CYGWIN__)
 	if ((fdin = fopen(backup, "r")) == NULL)
 		fatalerr("cannot open \"%s\"\n", backup);
 #endif
