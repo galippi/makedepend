@@ -178,10 +178,8 @@ included_by(struct inclist *ip, struct inclist *newfile)
 	 * If it is already on the list, don't stick it on again.
 	 */
 	if (ip->i_list == NULL) {
-		ip->i_list = (struct inclist **)
-			malloc(sizeof(struct inclist *) * ++ip->i_listlen);
-		ip->i_merged = (boolean *)
-		    malloc(sizeof(boolean) * ip->i_listlen);
+		ip->i_list = malloc(sizeof(struct inclist *) * ++ip->i_listlen);
+		ip->i_merged = malloc(sizeof(boolean) * ip->i_listlen);
 	} else {
 		for (i=0; i<ip->i_listlen; i++)
 			if (ip->i_list[ i ] == newfile) {
@@ -205,9 +203,9 @@ included_by(struct inclist *ip, struct inclist *newfile)
 			    }
 			    return;
 			}
-		ip->i_list = (struct inclist **) realloc(ip->i_list,
+		ip->i_list = realloc(ip->i_list,
 			sizeof(struct inclist *) * ++ip->i_listlen);
-		ip->i_merged = (boolean *)
+		ip->i_merged =
 		    realloc(ip->i_merged, sizeof(boolean) * ip->i_listlen);
 	}
 	ip->i_list[ ip->i_listlen-1 ] = newfile;

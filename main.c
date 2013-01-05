@@ -187,7 +187,7 @@ main(int argc, char *argv[])
 	    if ((afd = open(argv[1]+1, O_RDONLY)) < 0)
 		fatalerr("cannot open \"%s\"\n", argv[1]+1);
 	    fstat(afd, &ast);
-	    args = (char *)malloc(ast.st_size + 1);
+	    args = malloc(ast.st_size + 1);
 	    if ((ast.st_size = read(afd, args, ast.st_size)) < 0)
 		fatalerr("failed to read %s\n", argv[1]+1);
 	    args[ast.st_size] = '\0';
@@ -215,7 +215,7 @@ main(int argc, char *argv[])
 	    }
 	    if (p[-1])
 		nargc++;
-	    nargv = (char **)malloc(nargc * sizeof(char *));
+	    nargv = malloc(nargc * sizeof(char *));
 	    nargv[0] = argv[0];
 	    argc = 1;
 	    for (p = args; argc < nargc; p += strlen(p) + 1)
@@ -503,16 +503,16 @@ getfile(const char *file)
 	struct filepointer	*content;
 	struct stat	st;
 
-	content = (struct filepointer *)malloc(sizeof(struct filepointer));
+	content = malloc(sizeof(struct filepointer));
 	content->f_name = file;
 	if ((fd = open(file, O_RDONLY)) < 0) {
 		warning("cannot open \"%s\"\n", file);
-		content->f_p = content->f_base = content->f_end = (char *)malloc(1);
+		content->f_p = content->f_base = content->f_end = malloc(1);
 		*content->f_p = '\0';
 		return(content);
 	}
 	fstat(fd, &st);
-	content->f_base = (char *)malloc(st.st_size+1);
+	content->f_base = malloc(st.st_size+1);
 	if (content->f_base == NULL)
 		fatalerr("cannot allocate mem\n");
 	if ((st.st_size = read(fd, content->f_base, st.st_size)) < 0)
