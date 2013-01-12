@@ -729,7 +729,7 @@ redirect(const char *line, const char *makefile)
 	}
 
 	/*
-	 * use a default makefile is not specified.
+	 * use a default if makefile is not specified.
 	 */
 	if (!makefile) {
 		if (stat("Makefile", &st) == 0)
