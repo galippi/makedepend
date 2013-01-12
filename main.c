@@ -739,21 +739,23 @@ redirect(const char *line, const char *makefile)
 		else
 			fatalerr("[mM]akefile is not present\n");
 	}
-	else
-	    stat(makefile, &st);
-	if ((fdin = fopen(makefile, "r")) == NULL)
-		fatalerr("cannot open \"%s\"\n", makefile);
+	else {
+		if (stat(makefile, &st) != 0)
+			fatalerr("\"%s\" is not present\n", makefile);
+	}
+
 	snprintf(backup, sizeof(backup), "%s.bak", makefile);
 	unlink(backup);
-#if defined(WIN32) || defined(__CYGWIN__)
-	fclose(fdin);
-#endif
+
+	/* rename() won't work on WIN32, CYGWIN, or CIFS if src file is open */
 	if (rename(makefile, backup) < 0)
 		fatalerr("cannot rename %s to %s\n", makefile, backup);
-#if defined(WIN32) || defined(__CYGWIN__)
-	if ((fdin = fopen(backup, "r")) == NULL)
-		fatalerr("cannot open \"%s\"\n", backup);
-#endif
+	if ((fdin = fopen(backup, "r")) == NULL) {
+		if (rename(backup, makefile) < 0)
+			warning("renamed %s to %s, but can't move it back\n",
+				makefile, backup);
+		fatalerr("cannot open \"%s\"\n", makefile);
+	}
 	if ((fdout = freopen(makefile, "w", stdout)) == NULL)
 		fatalerr("cannot open \"%s\"\n", backup);
 	len = strlen(line);
