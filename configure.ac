@@ -30,6 +30,6 @@ dnl Use 64-bit file operations on 32-bit systems that support them
 AC_SYS_LARGEFILE
 
 dnl Check for pkg-config packages
-PKG_CHECK_MODULES(X, [xproto])
+PKG_CHECK_MODULES(X, [xproto >= 7.0.17])
 
 AC_OUTPUT([Makefile])

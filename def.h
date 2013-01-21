@@ -172,7 +172,7 @@ int                     cppsetup(const char *filename,
 				 struct inclist *inc);
 
 
-extern void fatalerr(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
+extern void fatalerr(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2) _X_NORETURN;
 extern void warning(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 extern void warning1(const char *, ...) _X_ATTRIBUTE_PRINTF(1, 2);
 

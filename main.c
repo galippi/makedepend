@@ -113,7 +113,7 @@ boolean 	warn_multiple = FALSE;
 static void setfile_cmdinc(struct filepointer *filep, long count, char **list);
 static void redirect(const char *line, const char *makefile);
 
-static RETSIGTYPE
+static RETSIGTYPE _X_NORETURN
 catch (int sig)
 {
 	fflush (stdout);
