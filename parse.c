@@ -229,7 +229,7 @@ deftype (char *line, struct filepointer *filep,
 		/*
 		 * copy the definition back to the beginning of the line.
 		 */
-		strcpy (line, p);
+		memmove (line, p, strlen(p) + 1);
 		break;
 	case ELSE:
 	case ENDIF:
