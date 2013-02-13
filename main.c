@@ -718,7 +718,7 @@ redirect(const char *line, const char *makefile)
 	char	backup[ BUFSIZ ],
 		buf[ BUFSIZ ];
 	boolean	found = FALSE;
-	int	len;
+	size_t	len;
 
 	/*
 	 * if makefile is "-" then let it pour onto stdout.
