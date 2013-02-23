@@ -20,9 +20,6 @@ dnl Checks for programs.
 XORG_DEFAULT_OPTIONS
 XORG_WITH_LINT
 
-dnl Replacement for Imake SIGNAL_DEFINES
-AC_TYPE_SIGNAL
-
 dnl Checks for functions
 AC_CHECK_FUNCS([rename fchmod])
 
