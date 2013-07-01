@@ -242,6 +242,8 @@ main(int argc, char *argv[])
 			break;
 		case 'D':
 			if (argv[0][2] == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -D\n");
 				argv++;
 				argc--;
 			}
@@ -257,6 +259,8 @@ main(int argc, char *argv[])
 			    fatalerr("Too many -I flags.\n");
 			*incp++ = argv[0]+2;
 			if (**(incp-1) == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -I\n");
 				*(incp-1) = *(++argv);
 				argc--;
 			}
@@ -270,6 +274,8 @@ main(int argc, char *argv[])
 			    undeflist = realloc(undeflist,
 						numundefs * sizeof(char *));
 			if (argv[0][2] == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -U\n");
 				argv++;
 				argc--;
 			}
@@ -286,6 +292,8 @@ main(int argc, char *argv[])
 		case 'w':
 			if (endmarker) break;
 			if (argv[0][2] == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -w\n");
 				argv++;
 				argc--;
 				width = atoi(argv[0]);
@@ -295,6 +303,8 @@ main(int argc, char *argv[])
 		case 'o':
 			if (endmarker) break;
 			if (argv[0][2] == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -o\n");
 				argv++;
 				argc--;
 				objsuffix = argv[0];
@@ -304,6 +314,8 @@ main(int argc, char *argv[])
 		case 'p':
 			if (endmarker) break;
 			if (argv[0][2] == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -p\n");
 				argv++;
 				argc--;
 				objprefix = argv[0];
@@ -322,6 +334,8 @@ main(int argc, char *argv[])
 			if (endmarker) break;
 			startat = argv[0]+2;
 			if (*startat == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -s\n");
 				startat = *(++argv);
 				argc--;
 			}
@@ -333,6 +347,8 @@ main(int argc, char *argv[])
 			if (endmarker) break;
 			makefile = argv[0]+2;
 			if (*makefile == '\0') {
+				if (argc < 2)
+					fatalerr("Missing argument for -f\n");
 				makefile = *(++argv);
 				argc--;
 			}
