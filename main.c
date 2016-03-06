@@ -109,7 +109,7 @@ boolean		verbose = FALSE;
 boolean		show_where_not = FALSE;
 /* Warn on multiple includes of same file */
 boolean 	warn_multiple = FALSE;
-static boolean dosfile = TRUE;
+static boolean dosfile = FALSE;
 
 static void setfile_cmdinc(struct filepointer *filep, long count, char **list);
 static void redirect(const char *line, const char *makefile);
@@ -357,6 +357,10 @@ main(int argc, char *argv[])
 
 		case 'm':
 			warn_multiple = TRUE;
+			break;
+
+		case 'u':
+			dosfile = TRUE;
 			break;
 
 		/* Ignore -O, -g so we can just pass ${CFLAGS} to
