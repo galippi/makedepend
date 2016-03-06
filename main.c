@@ -109,6 +109,7 @@ boolean		verbose = FALSE;
 boolean		show_where_not = FALSE;
 /* Warn on multiple includes of same file */
 boolean 	warn_multiple = FALSE;
+static boolean dosfile = TRUE;
 
 static void setfile_cmdinc(struct filepointer *filep, long count, char **list);
 static void redirect(const char *line, const char *makefile);
@@ -534,6 +535,23 @@ getfile(const char *file)
 	if ((st.st_size = read(fd, content->f_base, st.st_size)) < 0)
 		fatalerr("failed to read %s\n", file);
 	close(fd);
+  if (dosfile)
+  { /* drop \r's from the file */
+    char *p_src = content->f_base;
+    char *p_dst = p_src;
+    char *p_end = p_src + st.st_size;
+    while (p_src < p_end)
+    { /* copy all chars to the original buffer without \r characters */
+      if (*p_src != '\r')
+      { /* copy the char to the destination buffer */
+        *p_dst++ = *p_src;
+      }else
+      { /* skip \r -> do nothing */
+      }
+      p_src++;
+    }
+    st.st_size = p_dst - content->f_base; /* update the file size */
+  }
 	content->f_len = st.st_size+1;
 	content->f_p = content->f_base;
 	content->f_end = content->f_base + st.st_size;
